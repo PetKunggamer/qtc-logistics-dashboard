@@ -335,7 +335,7 @@ export default function LiveMapPage() {
 
           {/* Top status bar */}
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] flex gap-2">
-            <div className="bg-white dark:bg-slate-800 rounded-full px-4 py-1.5 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center gap-3 text-xs font-medium">
+            <div className="bg-white dark:bg-slate-800 rounded-full px-4 py-1.5 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center gap-3 text-xs font-medium text-slate-800 dark:text-slate-100">
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-emerald-500 rounded-full" />On Time: {statusCounts.onTime}</span>
               <span className="text-slate-300 dark:text-slate-600">|</span>
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-amber-500 rounded-full" />เสี่ยง: {statusCounts.risk}</span>
