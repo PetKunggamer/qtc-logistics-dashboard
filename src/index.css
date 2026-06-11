@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+.leaflet-container { font-family: 'Inter', system-ui, sans-serif; }
+
+.vehicle-icon {
+  width: 40px;
+  height: 40px;
+  background: #1d4ed8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.vehicle-icon:hover { transform: scale(1.15); }
+.vehicle-icon.delayed { background: #dc2626; }
+.vehicle-icon.risk { background: #f59e0b; }
+.vehicle-icon.delivered { background: #16a34a; }
+.vehicle-icon.idle { background: #64748b; }
+.vehicle-icon.maintenance { background: #7c3aed; }
+
+.warehouse-icon {
+  width: 44px;
+  height: 44px;
+  background: #7c3aed;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.customer-icon {
+  width: 32px;
+  height: 32px;
+  background: #0891b2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+.vehicle-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #3b82f6;
+  animation: pulse-ring 2s infinite;
+  opacity: 0;
+}
