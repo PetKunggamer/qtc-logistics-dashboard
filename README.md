@@ -1,73 +1,357 @@
-# React + TypeScript + Vite
+# 🚚 QTC Logistics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## คู่มือการใช้งานสำหรับผู้ใช้ทั่วไป
 
-Currently, two official plugins are available:
+> ไม่จำเป็นต้องมีความรู้ด้าน IT ก็สามารถใช้งานได้
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+# 📌 เริ่มต้นใช้งาน
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## เปิดเว็บไซต์
 
-## Expanding the ESLint configuration
+เปิด Browser เช่น
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Google Chrome
+* Microsoft Edge
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+จากนั้นเข้าไปที่ลิงก์
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+https://qtc-logistics-dashboard.vercel.app
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+✅ ไม่ต้องติดตั้งโปรแกรมเพิ่มเติม
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+✅ ใช้งานผ่านเว็บได้ทันที
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+# 🖥️ โครงสร้างหน้าจอ
+
+```text
+┌─────────────────────────────────────────────────┐
+│  🔲 เมนูซ้าย │        เนื้อหาหลัก               │
+│  (Sidebar)   │                                   │
+│              │                                   │
+│  📊 Dashboard│                                   │
+│  🗺️ แผนที่   │                                   │
+│  📦 ออเดอร์  │                                   │
+│  ...         │                                   │
+└─────────────────────────────────────────────────┘
 ```
+
+### เมนูหลัก
+
+* เมนูด้านซ้าย → เปลี่ยนหน้าต่าง ๆ ของระบบ
+* มุมบนขวา → เปลี่ยน Role, เปิด Dark Mode และดูการแจ้งเตือน
+
+---
+
+# 👤 การเปลี่ยน Role (ตำแหน่ง)
+
+คลิกที่ชื่อ Role มุมขวาบน แล้วเลือกตำแหน่งที่ต้องการ
+
+| Role      | สิทธิ์การเข้าถึง           |
+| --------- | -------------------------- |
+| Admin     | เห็นข้อมูลทั้งหมด          |
+| Manager   | ดูภาพรวมและ KPI ทั้งหมด    |
+| Logistics | ดูออเดอร์ รถ และคนขับ      |
+| Sales     | ดูเฉพาะออเดอร์ของตนเอง     |
+| Driver    | ดูเฉพาะงานที่ได้รับมอบหมาย |
+
+> ⚠️ ข้อมูลภายในระบบเป็นข้อมูลจำลองเพื่อการสาธิต
+
+---
+
+# 📊 หน้าต่าง ๆ ภายในระบบ
+
+## 1. Dashboard Overview
+
+### วัตถุประสงค์
+
+ดูภาพรวมการดำเนินงานทั้งหมดในหน้าเดียว
+
+### ข้อมูลที่แสดง
+
+* จำนวนออเดอร์ทั้งหมด
+* ส่งสำเร็จ
+* ส่งล่าช้า
+* กราฟสถานะออเดอร์
+* กราฟยอดส่งรายวัน
+* กราฟยอดส่งรายเดือน
+* รายการแจ้งเตือนล่าสุด
+
+### แนะนำการใช้งาน
+
+เปิดดูทุกเช้าก่อนเริ่มงานเพื่อตรวจสอบความผิดปกติ
+
+---
+
+## 2. Live Delivery Map
+
+### วัตถุประสงค์
+
+ติดตามตำแหน่งรถขนส่งแบบ Real-time
+
+### สิ่งที่แสดง
+
+* ตำแหน่งรถบนแผนที่
+* ETA
+* สถานะการจัดส่ง
+
+### ความหมายของสี
+
+| สี | สถานะ            |
+| -- | ---------------- |
+| 🟢 | กำลังส่งตรงเวลา  |
+| 🟡 | เสี่ยงล่าช้า     |
+| 🔴 | ล่าช้า           |
+| ⚫  | ว่างงาน / จอดพัก |
+
+### วิธีใช้งาน
+
+คลิกที่รถเพื่อดู
+
+* คนขับ
+* ทะเบียนรถ
+* ETA
+* สถานะปัจจุบัน
+
+---
+
+## 3. Order Tracking
+
+### วัตถุประสงค์
+
+ค้นหาและติดตามสถานะออเดอร์
+
+### วิธีใช้งาน
+
+1. พิมพ์เลข SO หรือชื่อลูกค้า
+2. เลือกสถานะที่ต้องการกรอง
+3. คลิกออเดอร์เพื่อดูรายละเอียด
+
+### สถานะออเดอร์
+
+| สถานะ          | ความหมาย        |
+| -------------- | --------------- |
+| 🟡 รอดำเนินการ | ยังไม่เริ่ม     |
+| 🔵 กำลังเตรียม | จัดสินค้าในคลัง |
+| 🟣 พร้อมโหลด   | รอขึ้นรถ        |
+| 🟤 โหลดแล้ว    | อยู่บนรถแล้ว    |
+| 🚚 กำลังส่ง    | รถออกจากคลัง    |
+| 🏠 ใกล้ถึง     | ใกล้ถึงลูกค้า   |
+| ✅ ส่งสำเร็จ    | ส่งเรียบร้อย    |
+| ❌ ล่าช้า       | มีปัญหา         |
+| 🚫 ยกเลิก      | ยกเลิกออเดอร์   |
+
+---
+
+## 4. Delivery Timeline
+
+### วัตถุประสงค์
+
+ติดตามลำดับขั้นตอนการส่งสินค้า
+
+### การแสดงผล
+
+```text
+รับออเดอร์
+    ↓
+จัดสินค้า
+    ↓
+โหลดขึ้นรถ
+    ↓
+กำลังขนส่ง
+    ↓
+ส่งสำเร็จ
+```
+
+### ความหมาย
+
+| สัญลักษณ์ | ความหมาย       |
+| --------- | -------------- |
+| ✅         | เสร็จสิ้นแล้ว  |
+| 🔵        | กำลังดำเนินการ |
+| ⚪         | ยังไม่เริ่ม    |
+
+---
+
+## 5. Delay Analysis
+
+### วัตถุประสงค์
+
+วิเคราะห์สาเหตุของงานที่ล่าช้า
+
+### สิ่งที่แสดง
+
+* Pie Chart สาเหตุการล่าช้า
+* Bar Chart แนวโน้มรายวัน
+* ตารางรายการที่ล่าช้า
+
+### สาเหตุยอดนิยม
+
+* 🌧️ สภาพอากาศ
+* 🚗 รถติด
+* 📞 ลูกค้าเลื่อนนัด
+* 🔧 รถเสีย
+* 📋 เอกสารไม่ครบ
+
+---
+
+## 6. Proof of Delivery (POD)
+
+### วัตถุประสงค์
+
+ตรวจสอบหลักฐานการส่งมอบสินค้า
+
+### สิ่งที่แสดง
+
+* รูปถ่ายหน้างาน
+* ลายเซ็นลูกค้า
+* ผู้รับสินค้า
+* วันที่และเวลา
+
+### สถานะ POD
+
+| สถานะ          | ความหมาย       |
+| -------------- | -------------- |
+| ⏳ รออัปโหลด    | ยังไม่มีข้อมูล |
+| 📤 อัปโหลดแล้ว | รออนุมัติ      |
+| ✅ ยืนยันแล้ว   | ตรวจสอบผ่าน    |
+
+---
+
+## 7. Fleet Management
+
+### วัตถุประสงค์
+
+บริหารจัดการข้อมูลรถขนส่งทั้งหมด
+
+### ข้อมูลที่แสดง
+
+* ทะเบียนรถ
+* ยี่ห้อ
+* ประเภทรถ
+* สถานะปัจจุบัน
+* เลขไมล์สะสม
+* คนขับประจำรถ
+
+---
+
+## 8. Maintenance
+
+### วัตถุประสงค์
+
+ติดตามการซ่อมบำรุงรถ
+
+### ข้อมูลที่แสดง
+
+* ประวัติการซ่อม
+* เปลี่ยนน้ำมันเครื่อง
+* เปลี่ยนยาง
+* งานค้างดำเนินการ
+* งบประมาณที่ใช้
+
+---
+
+## 9. Sales View
+
+### วัตถุประสงค์
+
+ให้ฝ่ายขายติดตามงานของตนเอง
+
+### สิ่งที่แสดง
+
+* มูลค่าออเดอร์รวม
+* จำนวนงานที่กำลังส่ง
+* จำนวนงานล่าช้า
+* ตารางออเดอร์ทั้งหมด
+
+### สิทธิ์การมองเห็น
+
+| Role            | สิทธิ์          |
+| --------------- | --------------- |
+| Sales           | ดูเฉพาะของตนเอง |
+| Admin / Manager | ดูทุกคนได้      |
+
+---
+
+## 10. KPI Report
+
+### วัตถุประสงค์
+
+ติดตามประสิทธิภาพการทำงาน
+
+### ตัวชี้วัดหลัก
+
+* On-Time Delivery Rate
+* Delivery Success Rate
+* Driver Performance
+* Monthly Performance
+
+### ความสามารถ
+
+* ดูย้อนหลังรายเดือน
+* เปรียบเทียบผลการดำเนินงาน
+* วิเคราะห์แนวโน้ม
+
+---
+
+# 🌙 Dark Mode
+
+เปิดหรือปิดโหมดมืดได้จากมุมขวาบน
+
+```text
+🌙 Dark Mode
+☀️ Light Mode
+```
+
+ระบบจะจดจำการตั้งค่าของผู้ใช้อัตโนมัติ
+
+---
+
+# ❓ คำถามที่พบบ่อย (FAQ)
+
+### Q: ข้อมูลอัปเดตอัตโนมัติหรือไม่?
+
+A: เวอร์ชันสาธิตใช้ข้อมูลจำลอง แต่ระบบจริงรองรับ Real-time Tracking
+
+---
+
+### Q: ลืมว่าอยู่หน้าไหน?
+
+A: เมนูที่กำลังเปิดอยู่จะมีแถบสีน้ำเงินแสดงอยู่ทางซ้าย
+
+---
+
+### Q: เมนูด้านซ้ายหายไป?
+
+A: กดปุ่ม
+
+```text
+☰
+```
+
+ที่มุมบนซ้ายเพื่อเปิดหรือปิด Sidebar
+
+---
+
+### Q: ทำไมบางข้อมูลไม่แสดง?
+
+A: ตรวจสอบ Role ที่กำลังใช้งานอยู่ เนื่องจากแต่ละ Role มีสิทธิ์การเข้าถึงต่างกัน
+
+---
+
+# 📞 ติดต่อผู้ดูแลระบบ
+
+หากพบปัญหาในการใช้งาน หรือมีข้อเสนอแนะเพิ่มเติม
+
+กรุณาติดต่อผู้ดูแลระบบของ QTC Logistics Dashboard
+
+---
+
+**QTC Logistics Dashboard**
+Version 1.0.0
+Internal Demo System
