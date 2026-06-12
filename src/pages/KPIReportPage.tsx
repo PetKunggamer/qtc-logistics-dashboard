@@ -48,7 +48,7 @@ export default function KPIReportPage() {
     { label: 'Delivery Success Rate', value: `${kpi.deliverySuccessRate}%`, target: '98%', status: (kpi.deliverySuccessRate >= 98 ? 'good' : 'warning') as StatusKey, icon: '✅' },
     { label: 'Delayed Delivery Rate', value: `${(100 - kpi.onTimeRate).toFixed(1)}%`, target: '<5%', status: ((100 - kpi.onTimeRate) <= 5 ? 'good' : 'warning') as StatusKey, icon: '⚠️' },
     { label: 'POD Completion Rate', value: `${kpi.podCompletionRate}%`, target: '100%', status: (kpi.podCompletionRate >= 100 ? 'good' : kpi.podCompletionRate >= 90 ? 'warning' : 'bad') as StatusKey, icon: '📸' },
-    { label: 'Cost per Delivery', value: formatCurrency(kpi.costPerDelivery), target: `≤${formatCurrency(3000)}`, status: (kpi.costPerDelivery <= 3000 ? 'good' : 'warning') as StatusKey, icon: '💰' },
+    { label: 'ราคาต่อเที่ยว', value: formatCurrency(kpi.costPerDelivery), target: `≤${formatCurrency(3000)}`, status: (kpi.costPerDelivery <= 3000 ? 'good' : 'warning') as StatusKey, icon: '💰' },
     { label: 'Fleet Utilization', value: `${kpi.fleetUtilization}%`, target: '70%', status: (kpi.fleetUtilization >= 70 ? 'good' : 'warning') as StatusKey, icon: '🚚' },
     { label: 'Total Orders (Month)', value: kpi.totalOrders.toString(), target: '300+', status: (kpi.totalOrders >= 300 ? 'good' : 'warning') as StatusKey, icon: '📦' },
   ];

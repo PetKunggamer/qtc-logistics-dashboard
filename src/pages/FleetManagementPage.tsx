@@ -231,12 +231,8 @@ export default function FleetManagementPage() {
                 ['ยี่ห้อ/รุ่น', `${selectedVehicle.brand} ${selectedVehicle.model} ${selectedVehicle.year}`],
                 ['สถานะ', VEHICLE_STATUS_LABEL[selectedVehicle.status]],
                 ['ไมล์สะสม', `${selectedVehicle.mileage.toLocaleString()} km`],
-                ['น้ำมัน', `${selectedVehicle.fuel}%`],
                 ['Payload', `${selectedVehicle.payload.toLocaleString()} kg`],
                 ['ซ่อมครั้งสุดท้าย', formatDate(selectedVehicle.lastMaintenance)],
-                ['ซ่อมครั้งต่อไป', formatDate(selectedVehicle.nextMaintenance)],
-                ['ประกันหมดอายุ', formatDate(selectedVehicle.insuranceExpiry)],
-                ['ภาษีหมดอายุ', formatDate(selectedVehicle.taxExpiry)],
               ].map(([k, v], i) => (
                 <div key={i} className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-3">
                   <div className="text-xs text-slate-500 dark:text-slate-400">{k}</div>
@@ -244,6 +240,62 @@ export default function FleetManagementPage() {
                 </div>
               ))}
             </div>
+
+            {/* Document expiry section — 6-wheel trucks only */}
+            {selectedVehicle.type === 'รถบรรทุก 6 ล้อ' && (() => {
+              const today = new Date();
+              const docItems = [
+                { label: 'พรบ หมดอายุ', date: selectedVehicle.porobExpiry, icon: '📋' },
+                { label: 'ประกันภัย หมดอายุ', date: selectedVehicle.insuranceExpiry, icon: '🛡️' },
+                { label: 'ปจ2 / ภาษีรถ หมดอายุ', date: selectedVehicle.taxExpiry, icon: '🏷️' },
+                { label: 'รอบเข้าศูนย์ครั้งต่อไป', date: selectedVehicle.nextMaintenance, icon: '🔧' },
+              ].filter(d => d.date);
+
+              return (
+                <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl p-4">
+                  <div className="text-sm font-semibold text-slate-800 dark:text-white mb-3">📄 เอกสารและกำหนดการ (6 ล้อ)</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {docItems.map(({ label, date, icon }) => {
+                      const expiry = new Date(date!);
+                      const days = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                      const isExpired = days < 0;
+                      const isUrgent = days >= 0 && days <= 30;
+                      const isWarning = days > 30 && days <= 90;
+                      const colorBg = isExpired
+                        ? 'bg-red-100 dark:bg-red-900/30 border-red-200 dark:border-red-800/50'
+                        : isUrgent
+                          ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/40'
+                          : isWarning
+                            ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/40'
+                            : 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/30';
+                      const colorText = isExpired || isUrgent
+                        ? 'text-red-700 dark:text-red-300'
+                        : isWarning
+                          ? 'text-amber-700 dark:text-amber-300'
+                          : 'text-emerald-700 dark:text-emerald-300';
+                      const badge = isExpired
+                        ? '🚨 หมดอายุแล้ว'
+                        : isUrgent
+                          ? `⚠️ อีก ${days} วัน`
+                          : isWarning
+                            ? `⏳ อีก ${days} วัน`
+                            : `✅ อีก ${days} วัน`;
+
+                      return (
+                        <div key={label} className={`rounded-lg border p-3 ${colorBg}`}>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className="text-base">{icon}</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">{label}</span>
+                          </div>
+                          <div className="text-sm font-semibold text-slate-800 dark:text-white">{formatDate(date!)}</div>
+                          <div className={`text-xs font-medium mt-0.5 ${colorText}`}>{badge}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
 
             {selectedDriver && (
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">

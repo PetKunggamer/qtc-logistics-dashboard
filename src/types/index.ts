@@ -95,6 +95,7 @@ export interface Vehicle {
   nextMaintenance: string;
   insuranceExpiry: string;
   taxExpiry: string;
+  porobExpiry?: string;
   currentJobId?: string;
   payload: number;
 }
