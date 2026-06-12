@@ -64,9 +64,9 @@ export default function KPIReportPage() {
 
   return (
     <Layout title="KPI Report">
-      <div className="p-6 space-y-6">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* Controls */}
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 flex flex-wrap gap-3 items-center">
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 flex flex-col sm:flex-row flex-wrap gap-3 items-start sm:items-center">
           <div className="flex gap-1 bg-slate-100 dark:bg-slate-700 p-1 rounded-lg">
             {[{ key: 'today', label: 'วันนี้' }, { key: 'week', label: '7 วัน' }, { key: 'month', label: '30 วัน' }, { key: 'quarter', label: '3 เดือน' }].map(r => (
               <button key={r.key} onClick={() => setDateRange(r.key)} className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${dateRange === r.key ? 'bg-white dark:bg-slate-600 text-slate-800 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
@@ -74,8 +74,8 @@ export default function KPIReportPage() {
               </button>
             ))}
           </div>
-          <div className="flex-1" />
-          <div className="flex gap-2 items-center">
+          <div className="hidden sm:flex flex-1" />
+          <div className="flex flex-wrap gap-2 items-center">
             <span className="text-xs text-slate-500 dark:text-slate-400">Export:</span>
             {(['excel','csv','pdf'] as const).map(fmt => (
               <button key={fmt} onClick={() => setExportFormat(fmt)} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${exportFormat === fmt ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:border-blue-400'}`}>

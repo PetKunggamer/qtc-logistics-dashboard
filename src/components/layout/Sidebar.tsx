@@ -60,6 +60,7 @@ export default function Sidebar() {
               key={item.path}
               to={item.path}
               end={item.path === '/'}
+              onClick={() => { if (window.innerWidth < 1024) setSidebarOpen(false); }}
               className={({ isActive }) => cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors group relative',
                 isActive

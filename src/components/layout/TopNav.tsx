@@ -88,7 +88,7 @@ export default function TopNav({ title }: { title?: string }) {
           </button>
 
           {showNotif && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
               <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <span className="font-semibold text-slate-800 dark:text-white text-sm">การแจ้งเตือน</span>
                 <span className="text-xs text-slate-500 dark:text-slate-400">{notifications.length} รายการ</span>

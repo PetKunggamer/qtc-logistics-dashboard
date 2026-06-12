@@ -8,6 +8,7 @@ const TIMELINE_STEPS = ['order_created','picking','packing','loading','vehicle_d
 export default function DeliveryTimelinePage() {
   const [selectedOrderId, setSelectedOrderId] = useState<string>(orders[0]?.id || '');
   const [search, setSearch] = useState('');
+  const [showOrderList, setShowOrderList] = useState(false);
 
   const filteredOrders = orders.filter(o => {
     const customer = customers.find(c => c.id === o.customerId);
@@ -26,9 +27,20 @@ export default function DeliveryTimelinePage() {
 
   return (
     <Layout title="Delivery Timeline">
-      <div className="flex h-[calc(100vh-64px)] overflow-hidden">
+      <div className="flex h-[calc(100vh-64px)] overflow-hidden relative">
+        {/* Mobile overlay */}
+        {showOrderList && (
+          <div className="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={() => setShowOrderList(false)} />
+        )}
+
         {/* Left panel - order list */}
-        <div className="w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/50 flex flex-col shrink-0">
+        <div className={`
+          fixed top-16 left-0 h-[calc(100vh-64px)] z-30
+          lg:relative lg:top-auto lg:left-auto lg:h-auto lg:z-auto
+          w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/50 flex flex-col shrink-0
+          transition-transform duration-300
+          ${showOrderList ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}>
           <div className="p-4 border-b border-slate-200 dark:border-slate-700/50">
             <input
               type="text"
@@ -45,7 +57,7 @@ export default function DeliveryTimelinePage() {
               return (
                 <button
                   key={order.id}
-                  onClick={() => setSelectedOrderId(order.id)}
+                  onClick={() => { setSelectedOrderId(order.id); setShowOrderList(false); }}
                   className={`w-full text-left p-3 border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors ${isActive ? 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-l-blue-500' : ''}`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -65,7 +77,15 @@ export default function DeliveryTimelinePage() {
         </div>
 
         {/* Right panel - timeline detail */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6">
+          {/* Mobile order selector button */}
+          <button
+            onClick={() => setShowOrderList(true)}
+            className="lg:hidden mb-4 w-full flex items-center justify-between bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm px-4 py-3 text-sm font-medium text-slate-800 dark:text-white"
+          >
+            <span>📋 {selectedOrder ? selectedOrder.soNumber : 'เลือกออเดอร์'}</span>
+            <span className="text-slate-400">▼</span>
+          </button>
           {selectedOrder ? (
             <div className="max-w-2xl mx-auto space-y-6">
               {/* Header */}

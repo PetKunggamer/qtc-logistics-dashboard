@@ -46,9 +46,9 @@ export default function DashboardPage() {
 
   return (
     <Layout title="Dashboard Overview">
-      <div className="p-6 space-y-6">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* KPI Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <KPICard title="Orders Today" value={kpi.ordersToday} icon="📋" color="blue" subtitle="วันนี้" trend={{ value: 12, label: 'vs เมื่อวาน' }} />
           <KPICard title="In Transit" value={kpi.ordersInTransit} icon="🚚" color="amber" subtitle="กำลังขนส่ง" />
           <KPICard title="Delivered" value={kpi.ordersDelivered} icon="✅" color="emerald" subtitle="ส่งสำเร็จแล้ว" trend={{ value: 8, label: 'vs เดือนที่แล้ว' }} />
@@ -60,19 +60,21 @@ export default function DashboardPage() {
         </div>
 
         {/* Row 1: Status pie + On-Time bar */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
             <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Order Status</h3>
-            <div className="flex items-center gap-4">
-              <ResponsiveContainer width="50%" height={200}>
-                <PieChart>
-                  <Pie data={statusCounts} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
-                    {statusCounts.map((entry, i) => <Cell key={i} fill={entry.color} />)}
-                  </Pie>
-                  <Tooltip contentStyle={{ background: tooltipBg, border: `1px solid ${tooltipBorder}`, borderRadius: 8, color: isDark ? '#f1f5f9' : '#1e293b', fontSize: 12 }} labelStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} itemStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="flex-1 space-y-2">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="w-full sm:w-1/2">
+                <ResponsiveContainer width="100%" height={180}>
+                  <PieChart>
+                    <Pie data={statusCounts} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={3} dataKey="value">
+                      {statusCounts.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                    </Pie>
+                    <Tooltip contentStyle={{ background: tooltipBg, border: `1px solid ${tooltipBorder}`, borderRadius: 8, color: isDark ? '#f1f5f9' : '#1e293b', fontSize: 12 }} labelStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} itemStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex-1 w-full space-y-2">
                 {statusCounts.map((s, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full shrink-0" style={{ background: s.color }} />
@@ -84,7 +86,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
             <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">On-Time vs Delay</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={onTimeVsDelay} barCategoryGap="30%">
@@ -101,8 +103,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Row 2: Daily + Monthly */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
             <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Daily Delivery (6 วันล่าสุด)</h3>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={dailyData}>
@@ -117,7 +119,7 @@ export default function DashboardPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
             <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Monthly Delivery</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={monthlyData}>
@@ -134,8 +136,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Row 3: Delay reasons + Vehicle util */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
             <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">สาเหตุการล่าช้า</h3>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={delayStats} layout="vertical">
@@ -148,18 +150,20 @@ export default function DashboardPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
             <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Vehicle Utilization</h3>
-            <div className="flex items-center gap-4">
-              <ResponsiveContainer width="50%" height={180}>
-                <PieChart>
-                  <Pie data={vehicleUtil} cx="50%" cy="50%" outerRadius={75} paddingAngle={3} dataKey="value">
-                    {vehicleUtil.map((e, i) => <Cell key={i} fill={e.color} />)}
-                  </Pie>
-                  <Tooltip contentStyle={{ background: tooltipBg, border: `1px solid ${tooltipBorder}`, borderRadius: 8, color: isDark ? '#f1f5f9' : '#1e293b', fontSize: 12 }} labelStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} itemStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="flex-1 space-y-2">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="w-full sm:w-1/2">
+                <ResponsiveContainer width="100%" height={160}>
+                  <PieChart>
+                    <Pie data={vehicleUtil} cx="50%" cy="50%" outerRadius={65} paddingAngle={3} dataKey="value">
+                      {vehicleUtil.map((e, i) => <Cell key={i} fill={e.color} />)}
+                    </Pie>
+                    <Tooltip contentStyle={{ background: tooltipBg, border: `1px solid ${tooltipBorder}`, borderRadius: 8, color: isDark ? '#f1f5f9' : '#1e293b', fontSize: 12 }} labelStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} itemStyle={{ color: isDark ? '#f1f5f9' : '#1e293b' }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex-1 w-full space-y-2">
                 {vehicleUtil.map((v, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full shrink-0" style={{ background: v.color }} />

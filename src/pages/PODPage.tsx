@@ -34,7 +34,7 @@ export default function PODPage() {
 
   return (
     <Layout title="Proof of Delivery">
-      <div className="p-6 space-y-5">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-5">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[

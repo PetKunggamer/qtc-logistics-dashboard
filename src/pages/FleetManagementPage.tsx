@@ -36,9 +36,9 @@ export default function FleetManagementPage() {
 
   return (
     <Layout title="Fleet Management">
-      <div className="p-6 space-y-5">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-5">
         {/* KPI Cards */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           {kpis.map((kpi, i) => (
             <div key={i} className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 text-center">
               <div className="text-2xl mb-1">{kpi.icon}</div>
@@ -49,9 +49,10 @@ export default function FleetManagementPage() {
         </div>
 
         {/* Controls */}
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Status filter tabs */}
-          <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3">
+          {/* Status filter tabs — horizontally scrollable on mobile */}
+          <div className="w-full sm:w-auto overflow-x-auto">
+          <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg w-max min-w-full sm:min-w-0">
             {STATUS_TABS.map(tab => (
               <button
                 key={tab.key}
@@ -61,6 +62,7 @@ export default function FleetManagementPage() {
                 {tab.label} ({tab.key === 'all' ? vehicles.length : vehicles.filter(v => v.status === tab.key).length})
               </button>
             ))}
+          </div>
           </div>
           <div className="flex-1" />
           <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">

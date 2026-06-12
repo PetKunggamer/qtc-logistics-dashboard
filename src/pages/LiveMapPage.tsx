@@ -62,7 +62,7 @@ function FloatingCard({ vehicle, order, onClose }: FloatingCardProps) {
   const customer = order ? customers.find(c => c.id === order.customerId) : undefined;
 
   return (
-    <div className="absolute bottom-6 left-6 z-[1000] bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-80 overflow-hidden">
+    <div className="absolute bottom-0 left-0 right-0 sm:bottom-6 sm:left-6 sm:right-auto z-[1000] bg-white dark:bg-slate-800 rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 sm:w-80 overflow-hidden">
       {/* Header */}
       <div className="bg-blue-600 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -163,6 +163,7 @@ function FloatingCard({ vehicle, order, onClose }: FloatingCardProps) {
 export default function LiveMapPage() {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [filter, setFilter] = useState<'all' | 'on_time' | 'risk' | 'delayed' | 'delivered'>('all');
+  const [showMobilePanel, setShowMobilePanel] = useState(false);
   const statusCounts = getStatusCounts();
 
   const inTransitOrders = orders.filter(o => ['in_transit','near_customer','delayed'].includes(o.status));
@@ -182,8 +183,19 @@ export default function LiveMapPage() {
   return (
     <Layout title="Live Delivery Map">
       <div className="flex h-[calc(100vh-64px)] relative">
-        {/* Left Sidebar */}
-        <div className="w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/50 flex flex-col shrink-0 overflow-hidden">
+        {/* Mobile overlay for vehicle panel */}
+        {showMobilePanel && (
+          <div className="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={() => setShowMobilePanel(false)} />
+        )}
+
+        {/* Left Sidebar — hidden on mobile unless toggled */}
+        <div className={`
+          fixed top-16 left-0 h-[calc(100vh-64px)] z-30
+          lg:relative lg:top-auto lg:left-auto lg:h-auto lg:z-auto
+          w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/50 flex flex-col shrink-0 overflow-hidden
+          transition-transform duration-300
+          ${showMobilePanel ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}>
           <div className="p-4 border-b border-slate-200 dark:border-slate-700/50">
             <h2 className="text-sm font-semibold text-slate-800 dark:text-white mb-3">ยานพาหนะบนท้องถนน</h2>
             {/* Status filter */}
@@ -333,9 +345,17 @@ export default function LiveMapPage() {
             })}
           </MapContainer>
 
+          {/* Mobile panel toggle */}
+          <button
+            onClick={() => setShowMobilePanel(v => !v)}
+            className="absolute top-4 left-4 z-[1000] lg:hidden bg-white dark:bg-slate-800 rounded-full px-3 py-1.5 shadow-lg border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-800 dark:text-slate-100 flex items-center gap-1.5"
+          >
+            🚚 รถ ({inTransitOrders.length})
+          </button>
+
           {/* Top status bar */}
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] flex gap-2">
-            <div className="bg-white dark:bg-slate-800 rounded-full px-4 py-1.5 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center gap-3 text-xs font-medium text-slate-800 dark:text-slate-100">
+            <div className="bg-white dark:bg-slate-800 rounded-full px-2.5 sm:px-4 py-1.5 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 sm:gap-3 text-xs font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap">
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-emerald-500 rounded-full" />On Time: {statusCounts.onTime}</span>
               <span className="text-slate-300 dark:text-slate-600">|</span>
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-amber-500 rounded-full" />เสี่ยง: {statusCounts.risk}</span>

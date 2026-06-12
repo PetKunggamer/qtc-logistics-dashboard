@@ -53,7 +53,7 @@ export default function OrderTrackingPage() {
 
   return (
     <Layout title="Order Tracking">
-      <div className="p-6 space-y-5">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-5">
         {/* Stats row */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
           {[
@@ -189,20 +189,20 @@ export default function OrderTrackingPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center gap-2 justify-between">
               <span className="text-xs text-slate-500 dark:text-slate-400">
                 แสดง {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filteredOrders.length)} จาก {filteredOrders.length} รายการ
               </span>
               <div className="flex gap-1">
-                <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page === 1} className="px-2.5 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-400">
+                <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page === 1} className="px-2.5 py-1.5 text-xs rounded border border-slate-200 dark:border-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-400 min-h-[36px]">
                   ← ก่อน
                 </button>
                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(p => (
-                  <button key={p} onClick={() => setPage(p)} className={`w-7 h-7 text-xs rounded border transition-colors ${p === page ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'}`}>
+                  <button key={p} onClick={() => setPage(p)} className={`w-9 h-9 text-xs rounded border transition-colors ${p === page ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'}`}>
                     {p}
                   </button>
                 ))}
-                <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page === totalPages} className="px-2.5 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-400">
+                <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page === totalPages} className="px-2.5 py-1.5 text-xs rounded border border-slate-200 dark:border-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-400 min-h-[36px]">
                   ถัดไป →
                 </button>
               </div>

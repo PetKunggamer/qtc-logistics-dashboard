@@ -20,7 +20,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
   const [userRole, setUserRole] = useState<UserRole>('admin');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 1024);
   const [unreadNotifications, setUnreadNotifications] = useState(5);
 
   const userNames: Record<UserRole, string> = {
