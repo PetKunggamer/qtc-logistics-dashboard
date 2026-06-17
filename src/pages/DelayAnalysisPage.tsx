@@ -46,7 +46,7 @@ export default function DelayAnalysisPage() {
   const avgDelay = 2.8; // hours
 
   return (
-    <Layout title="Delay Analysis">
+    <Layout title="วิเคราะห์การล่าช้า">
       <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* Summary cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -124,7 +124,7 @@ export default function DelayAnalysisPage() {
 
         {/* Monthly trend */}
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
-          <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Monthly Delay Trend</h3>
+          <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">แนวโน้มการล่าช้ารายเดือน</h3>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={monthlyTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -140,48 +140,6 @@ export default function DelayAnalysisPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* Summary table */}
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-700">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm">ตารางสรุปสาเหตุการล่าช้า</h3>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-slate-50 dark:bg-slate-700/50">
-                  <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">สาเหตุ</th>
-                  <th className="text-center px-5 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">จำนวนครั้ง</th>
-                  <th className="text-center px-5 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">เปอร์เซ็นต์</th>
-                  <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Progress</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reasonData.map((row, i) => (
-                  <tr key={i} className="border-t border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30">
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full" style={{ background: row.color }} />
-                        <span className="text-slate-800 dark:text-white font-medium">{row.label}</span>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3 text-center font-bold text-slate-800 dark:text-white">{row.count}</td>
-                    <td className="px-5 py-3 text-center text-slate-600 dark:text-slate-400">{row.percentage}%</td>
-                    <td className="px-5 py-3">
-                      <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
-                        <div className="h-2 rounded-full transition-all" style={{ width: `${row.percentage}%`, background: row.color }} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {reasonData.length === 0 && (
-                  <tr>
-                    <td colSpan={4} className="px-5 py-8 text-center text-slate-400 dark:text-slate-500">ไม่มีข้อมูลการล่าช้า</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </Layout>
   );

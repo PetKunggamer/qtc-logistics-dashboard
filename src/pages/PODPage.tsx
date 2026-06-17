@@ -115,6 +115,12 @@ export default function PODPage() {
                   </div>
 
                   <div className="space-y-1">
+                    {order?.outsourceCompany && (
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-500 dark:text-slate-400">ขนส่งภายนอก</span>
+                        <span className="text-violet-600 dark:text-violet-400 font-medium text-right max-w-[60%] truncate">{order.outsourceCompany}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-500 dark:text-slate-400">ผู้รับ</span>
                       <span className="text-slate-700 dark:text-slate-300 font-medium">{pod.receiverName}</span>
@@ -175,6 +181,7 @@ export default function PODPage() {
                 {[
                   ['SO Number', order?.soNumber || '-'],
                   ['ลูกค้า', customer?.name || '-'],
+                  ...(order?.outsourceCompany ? [['ขนส่งภายนอก', order.outsourceCompany]] : []),
                   ['ผู้รับสินค้า', selectedPOD.receiverName],
                   ['เบอร์โทร', selectedPOD.receiverPhone],
                   ['คนขับ', driver?.name || '-'],

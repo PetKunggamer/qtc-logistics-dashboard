@@ -5,12 +5,17 @@ import { timeAgo } from '../../utils/helpers';
 import type { UserRole } from '../../types';
 
 const roles: { value: UserRole; label: string }[] = [
-  { value: 'admin', label: '🔑 Admin' },
-  { value: 'manager', label: '👔 Manager' },
-  { value: 'logistics', label: '🚚 Logistics' },
-  { value: 'sales', label: '💼 Sales' },
-  { value: 'driver', label: '🚛 Driver' },
+  { value: 'admin', label: '🔑 ผู้ดูแลระบบ' },
+  { value: 'manager', label: '👔 ผู้จัดการ' },
+  { value: 'logistics', label: '🚚 โลจิสติกส์' },
+  { value: 'sales', label: '💼 ฝ่ายขาย' },
+  { value: 'driver', label: '🚛 คนขับ' },
 ];
+
+const ROLE_TH: Record<string, string> = {
+  admin: 'ผู้ดูแลระบบ', manager: 'ผู้จัดการ',
+  logistics: 'โลจิสติกส์', sales: 'ฝ่ายขาย', driver: 'คนขับ',
+};
 
 export default function TopNav({ title }: { title?: string }) {
   const { sidebarOpen, setSidebarOpen, theme, toggleTheme, userRole, setUserRole, userName, unreadNotifications, setUnreadNotifications } = useApp();
@@ -44,7 +49,7 @@ export default function TopNav({ title }: { title?: string }) {
       {/* Live indicator */}
       <div className="hidden md:flex items-center gap-2 ml-2">
         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-        <span className="text-xs text-slate-500 dark:text-slate-400">Live Update</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400">อัปเดตสด</span>
       </div>
 
       <div className="flex-1" />
@@ -126,7 +131,7 @@ export default function TopNav({ title }: { title?: string }) {
             </div>
             <div className="hidden md:block text-left">
               <div className="text-xs font-medium text-slate-800 dark:text-white truncate max-w-28">{userName}</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 capitalize">{userRole}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">{ROLE_TH[userRole] || userRole}</div>
             </div>
           </button>
 

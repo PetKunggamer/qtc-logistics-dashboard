@@ -45,24 +45,24 @@ export default function DashboardPage() {
   ];
 
   return (
-    <Layout title="Dashboard Overview">
+    <Layout title="ภาพรวมระบบ">
       <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          <KPICard title="Orders Today" value={kpi.ordersToday} icon="📋" color="blue" subtitle="วันนี้" trend={{ value: 12, label: 'vs เมื่อวาน' }} />
-          <KPICard title="In Transit" value={kpi.ordersInTransit} icon="🚚" color="amber" subtitle="กำลังขนส่ง" />
-          <KPICard title="Delivered" value={kpi.ordersDelivered} icon="✅" color="emerald" subtitle="ส่งสำเร็จแล้ว" trend={{ value: 8, label: 'vs เดือนที่แล้ว' }} />
-          <KPICard title="Delayed" value={kpi.ordersDelayed} icon="⚠️" color="red" subtitle="ล่าช้า" trend={{ value: -5, label: 'vs เดือนที่แล้ว' }} />
-          <KPICard title="On-Time Delivery" value={`${kpi.onTimeRate}%`} icon="⏱️" color="emerald" subtitle="อัตราส่งตรงเวลา" trend={{ value: 2.3, label: 'vs เดือนที่แล้ว' }} />
-          <KPICard title="Transport Cost" value={formatCurrency(kpi.transportCost)} icon="💰" color="violet" subtitle="ค่าขนส่งเดือนนี้" />
-          <KPICard title="Active Vehicles" value={kpi.activeVehicles} icon="🚛" color="cyan" subtitle={`จากทั้งหมด ${vehicles.length} คัน`} />
-          <KPICard title="In Maintenance" value={kpi.vehiclesInMaintenance} icon="🔧" color="orange" subtitle="รถเข้าซ่อม" />
+          <KPICard title="ออเดอร์วันนี้" value={kpi.ordersToday} icon="📋" color="blue" subtitle="วันนี้" trend={{ value: 12, label: 'vs เมื่อวาน' }} />
+          <KPICard title="กำลังขนส่ง" value={kpi.ordersInTransit} icon="🚚" color="amber" subtitle="อยู่ระหว่างส่ง" />
+          <KPICard title="ส่งสำเร็จ" value={kpi.ordersDelivered} icon="✅" color="emerald" subtitle="ส่งสำเร็จแล้ว" trend={{ value: 8, label: 'vs เดือนที่แล้ว' }} />
+          <KPICard title="ล่าช้า" value={kpi.ordersDelayed} icon="⚠️" color="red" subtitle="ออเดอร์ล่าช้า" trend={{ value: -5, label: 'vs เดือนที่แล้ว' }} />
+          <KPICard title="ส่งตรงเวลา" value={`${kpi.onTimeRate}%`} icon="⏱️" color="emerald" subtitle="อัตราส่งตรงเวลา" trend={{ value: 2.3, label: 'vs เดือนที่แล้ว' }} />
+          <KPICard title="ค่าขนส่ง" value={formatCurrency(kpi.transportCost)} icon="💰" color="violet" subtitle="ค่าขนส่งเดือนนี้" />
+          <KPICard title="รถที่ใช้งาน" value={kpi.activeVehicles} icon="🚛" color="cyan" subtitle={`จากทั้งหมด ${vehicles.length} คัน`} />
+          <KPICard title="รถเข้าซ่อม" value={kpi.vehiclesInMaintenance} icon="🔧" color="orange" subtitle="อยู่ระหว่างซ่อม" />
         </div>
 
         {/* Row 1: Status pie + On-Time bar */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Order Status</h3>
+            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">สถานะออเดอร์</h3>
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="w-full sm:w-1/2">
                 <ResponsiveContainer width="100%" height={180}>
@@ -87,7 +87,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">On-Time vs Delay</h3>
+            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">ตรงเวลา vs ล่าช้า</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={onTimeVsDelay} barCategoryGap="30%">
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -105,7 +105,7 @@ export default function DashboardPage() {
         {/* Row 2: Daily + Monthly */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Daily Delivery (6 วันล่าสุด)</h3>
+            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">การส่งรายวัน (6 วันล่าสุด)</h3>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={dailyData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -120,7 +120,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Monthly Delivery</h3>
+            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">การส่งรายเดือน</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -151,7 +151,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-4 md:p-5">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">Vehicle Utilization</h3>
+            <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-4">การใช้งานรถ</h3>
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="w-full sm:w-1/2">
                 <ResponsiveContainer width="100%" height={160}>
@@ -179,7 +179,7 @@ export default function DashboardPage() {
         {/* Recent Activities */}
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 shadow-sm p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-slate-800 dark:text-white font-semibold text-sm">Recent Activities</h3>
+            <h3 className="text-slate-800 dark:text-white font-semibold text-sm">กิจกรรมล่าสุด</h3>
             <button onClick={() => navigate('/orders')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline">ดูทั้งหมด →</button>
           </div>
           <div className="space-y-3">

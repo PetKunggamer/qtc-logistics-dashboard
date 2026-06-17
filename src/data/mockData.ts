@@ -84,11 +84,11 @@ export const orders: Order[] = [
   { id: 'O005', soNumber: 'SO-2026-005', customerId: 'C002', salesName: 'คุณแจ็ค', salesPhone: '095-555-5555', vehicleId: 'V002', driverId: 'D002', status: 'in_transit', createdAt: '2026-06-11T07:30:00', scheduledDelivery: '2026-06-11T15:00:00', eta: '2026-06-11T14:50:00', remainingKm: 15.3, podStatus: 'pending', items: [{ id: 'I005', name: 'เฟอร์นิเจอร์', quantity: 30, unit: 'ชิ้น', weight: 1500 }], totalAmount: 230000, totalWeight: 1500, route: [[13.7275, 100.7826], [13.7950, 100.6200], [13.8198, 100.5500]], routeCompleted: [[13.7275, 100.7826], [13.7950, 100.6200]] },
   { id: 'O006', soNumber: 'SO-2026-006', customerId: 'C009', salesName: 'คุณเมย์', salesPhone: '091-111-1111', vehicleId: 'V002', driverId: 'D002', status: 'delayed', createdAt: '2026-06-11T05:00:00', scheduledDelivery: '2026-06-11T10:00:00', eta: '2026-06-11T13:30:00', remainingKm: 22.1, delayReason: 'vehicle_breakdown', delayNote: 'รถมีปัญหาเรื่องยาง ซ่อมแซมเสร็จแล้ว', podStatus: 'pending', items: [{ id: 'I006', name: 'อะไหล่รถยนต์', quantity: 200, unit: 'ชิ้น', weight: 800 }], totalAmount: 156000, totalWeight: 800 },
   // Delivered Orders
-  { id: 'O007', soNumber: 'SO-2026-007', customerId: 'C004', salesName: 'คุณตั้ม', salesPhone: '092-222-2222', vehicleId: 'V003', driverId: 'D003', status: 'delivered', createdAt: '2026-06-11T06:00:00', scheduledDelivery: '2026-06-11T10:00:00', actualDelivery: '2026-06-11T09:48:00', podStatus: 'verified', items: [{ id: 'I007', name: 'อาหารแห้ง', quantity: 150, unit: 'กล่อง', weight: 750 }], totalAmount: 88000, totalWeight: 750 },
-  { id: 'O008', soNumber: 'SO-2026-008', customerId: 'C008', salesName: 'คุณนุ้ย', salesPhone: '093-333-3333', vehicleId: 'V005', driverId: 'D005', status: 'delivered', createdAt: '2026-06-10T08:00:00', scheduledDelivery: '2026-06-10T14:00:00', actualDelivery: '2026-06-10T14:22:00', podStatus: 'verified', items: [{ id: 'I008', name: 'เครื่องมือช่าง', quantity: 40, unit: 'กล่อง', weight: 320 }], totalAmount: 195000, totalWeight: 320 },
+  { id: 'O007', soNumber: 'SO-2026-007', customerId: 'C004', salesName: 'คุณตั้ม', salesPhone: '092-222-2222', vehicleId: 'V003', driverId: 'D003', status: 'delivered', createdAt: '2026-06-11T06:00:00', scheduledDelivery: '2026-06-11T10:00:00', actualDelivery: '2026-06-11T09:48:00', podStatus: 'verified', outsourceCompany: 'บริษัท รวดเร็ว ขนส่ง จำกัด', items: [{ id: 'I007', name: 'อาหารแห้ง', quantity: 150, unit: 'กล่อง', weight: 750 }], totalAmount: 88000, totalWeight: 750 },
+  { id: 'O008', soNumber: 'SO-2026-008', customerId: 'C008', salesName: 'คุณนุ้ย', salesPhone: '093-333-3333', vehicleId: 'V005', driverId: 'D005', status: 'delivered', createdAt: '2026-06-10T08:00:00', scheduledDelivery: '2026-06-10T14:00:00', actualDelivery: '2026-06-10T14:22:00', podStatus: 'verified', outsourceCompany: 'บริษัท สยาม โลจิสติกส์ จำกัด', items: [{ id: 'I008', name: 'เครื่องมือช่าง', quantity: 40, unit: 'กล่อง', weight: 320 }], totalAmount: 195000, totalWeight: 320 },
   { id: 'O009', soNumber: 'SO-2026-009', customerId: 'C010', salesName: 'คุณปู', salesPhone: '094-444-4444', vehicleId: 'V009', driverId: 'D009', status: 'delivered', createdAt: '2026-06-10T07:00:00', scheduledDelivery: '2026-06-10T12:00:00', actualDelivery: '2026-06-10T11:55:00', podStatus: 'verified', items: [{ id: 'I009', name: 'อุปกรณ์ไฟฟ้า', quantity: 60, unit: 'ชิ้น', weight: 180 }], totalAmount: 74000, totalWeight: 180 },
-  { id: 'O010', soNumber: 'SO-2026-010', customerId: 'C012', salesName: 'คุณแจ็ค', salesPhone: '095-555-5555', vehicleId: 'V003', driverId: 'D003', status: 'delivered', createdAt: '2026-06-10T06:30:00', scheduledDelivery: '2026-06-10T11:00:00', actualDelivery: '2026-06-10T11:10:00', podStatus: 'uploaded', items: [{ id: 'I010', name: 'กระดาษ A4', quantity: 500, unit: 'รีม', weight: 1250 }], totalAmount: 45000, totalWeight: 1250 },
-  { id: 'O011', soNumber: 'SO-2026-011', customerId: 'C006', salesName: 'คุณเมย์', salesPhone: '091-111-1111', vehicleId: 'V007', driverId: 'D007', status: 'delivered', createdAt: '2026-06-10T08:30:00', scheduledDelivery: '2026-06-10T15:00:00', actualDelivery: '2026-06-10T16:30:00', delayReason: 'traffic', delayNote: 'รถติดช่วงสุขุมวิท', podStatus: 'verified', items: [{ id: 'I011', name: 'สินค้านำเข้า', quantity: 100, unit: 'กล่อง', weight: 600 }], totalAmount: 312000, totalWeight: 600 },
+  { id: 'O010', soNumber: 'SO-2026-010', customerId: 'C012', salesName: 'คุณแจ็ค', salesPhone: '095-555-5555', vehicleId: 'V003', driverId: 'D003', status: 'delivered', createdAt: '2026-06-10T06:30:00', scheduledDelivery: '2026-06-10T11:00:00', actualDelivery: '2026-06-10T11:10:00', podStatus: 'uploaded', outsourceCompany: 'ห้างหุ้นส่วน อาร์เอส ขนส่ง', items: [{ id: 'I010', name: 'กระดาษ A4', quantity: 500, unit: 'รีม', weight: 1250 }], totalAmount: 45000, totalWeight: 1250 },
+  { id: 'O011', soNumber: 'SO-2026-011', customerId: 'C006', salesName: 'คุณเมย์', salesPhone: '091-111-1111', vehicleId: 'V007', driverId: 'D007', status: 'delivered', createdAt: '2026-06-10T08:30:00', scheduledDelivery: '2026-06-10T15:00:00', actualDelivery: '2026-06-10T16:30:00', delayReason: 'traffic', delayNote: 'รถติดช่วงสุขุมวิท', podStatus: 'verified', outsourceCompany: 'บริษัท พีเอส ทรานสปอร์ต จำกัด', items: [{ id: 'I011', name: 'สินค้านำเข้า', quantity: 100, unit: 'กล่อง', weight: 600 }], totalAmount: 312000, totalWeight: 600 },
   { id: 'O012', soNumber: 'SO-2026-012', customerId: 'C013', salesName: 'คุณตั้ม', salesPhone: '092-222-2222', vehicleId: 'V004', driverId: 'D004', status: 'in_transit', createdAt: '2026-06-11T08:00:00', scheduledDelivery: '2026-06-11T13:00:00', eta: '2026-06-11T12:50:00', remainingKm: 9.7, podStatus: 'pending', items: [{ id: 'I012', name: 'เครื่องดื่ม', quantity: 200, unit: 'ลัง', weight: 2400 }], totalAmount: 56000, totalWeight: 2400, route: [[13.7275, 100.7826], [13.6720, 100.6350], [13.7738, 100.5755]], routeCompleted: [[13.7275, 100.7826], [13.6720, 100.6350]] },
   // Preparing/Loading Orders
   { id: 'O013', soNumber: 'SO-2026-013', customerId: 'C011', salesName: 'คุณนุ้ย', salesPhone: '093-333-3333', status: 'preparing', createdAt: '2026-06-11T09:00:00', scheduledDelivery: '2026-06-11T17:00:00', podStatus: 'pending', items: [{ id: 'I013', name: 'วัสดุบรรจุภัณฑ์', quantity: 300, unit: 'ชิ้น', weight: 450 }], totalAmount: 78000, totalWeight: 450 },
@@ -114,6 +114,7 @@ export const orders: Order[] = [
     actualDelivery: `2026-06-${String(10-(n-21)).padStart(2,'0')}T${13+(n%5)+((n%3===0)?1:0)}:${n%3===0 ? '30':'15'}:00`,
     delayReason: n%5===0 ? 'traffic' as const : undefined,
     podStatus: 'verified' as const,
+    outsourceCompany: n%5===0 ? 'บริษัท รวดเร็ว ขนส่ง จำกัด' : n%5===1 ? 'บริษัท สยาม โลจิสติกส์ จำกัด' : n%5===2 ? 'ห้างหุ้นส่วน อาร์เอส ขนส่ง' : n%5===3 ? 'บริษัท พีเอส ทรานสปอร์ต จำกัด' : undefined,
     items: [{ id: `I0${n}`, name: `สินค้า ${n}`, quantity: 30+(n*5), unit: 'กล่อง', weight: 200+(n*20) }],
     totalAmount: 50000+(n*15000),
     totalWeight: 200+(n*20),
@@ -132,6 +133,7 @@ export const orders: Order[] = [
     actualDelivery: `2026-06-${String(n-25).padStart(2,'0')}T${14+((n%3===0)?1:0)}:20:00`,
     delayReason: n%7===0 ? 'rain' as const : undefined,
     podStatus: n%3===0 ? 'uploaded' as const : 'verified' as const,
+    outsourceCompany: n%5===0 ? 'บริษัท รวดเร็ว ขนส่ง จำกัด' : n%5===1 ? 'บริษัท สยาม โลจิสติกส์ จำกัด' : n%5===2 ? 'ห้างหุ้นส่วน อาร์เอส ขนส่ง' : n%5===3 ? 'บริษัท พีเอส ทรานสปอร์ต จำกัด' : undefined,
     items: [{ id: `I0${n}`, name: `สินค้า ${n}`, quantity: 20+(n*3), unit: 'กล่อง', weight: 150+(n*15) }],
     totalAmount: 45000+(n*12000),
     totalWeight: 150+(n*15),
@@ -150,6 +152,7 @@ export const orders: Order[] = [
     actualDelivery: n%3!==0 && n%5!==0 ? `2026-06-${String(n-36).padStart(2,'0')}T15:45:00` : undefined,
     delayReason: n%3===0 ? 'customer_reschedule' as const : undefined,
     podStatus: n%3!==0 && n%5!==0 ? 'verified' as const : 'pending' as const,
+    outsourceCompany: n%5===0 ? 'บริษัท รวดเร็ว ขนส่ง จำกัด' : n%5===1 ? 'บริษัท สยาม โลจิสติกส์ จำกัด' : n%5===2 ? 'ห้างหุ้นส่วน อาร์เอส ขนส่ง' : n%5===3 ? 'บริษัท พีเอส ทรานสปอร์ต จำกัด' : undefined,
     items: [{ id: `I0${n}`, name: `สินค้า ${n}`, quantity: 25+(n*4), unit: 'กล่อง', weight: 180+(n*18) }],
     totalAmount: 60000+(n*10000),
     totalWeight: 180+(n*18),
@@ -327,9 +330,9 @@ export function getDailyDeliveryData() {
 
 export function getMonthlyData() {
   return [
-    { month: 'ม.ค.', delivered: 245, onTime: 228 },
+    { month: 'ม.ค.', delivered: 245, onTime: 241 },
     { month: 'ก.พ.', delivered: 218, onTime: 204 },
-    { month: 'มี.ค.', delivered: 267, onTime: 252 },
+    { month: 'มี.ค.', delivered: 267, onTime: 263 },
     { month: 'เม.ย.', delivered: 234, onTime: 219 },
     { month: 'พ.ค.', delivered: 289, onTime: 271 },
     { month: 'มิ.ย.', delivered: 79, onTime: 74 },

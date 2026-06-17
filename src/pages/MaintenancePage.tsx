@@ -56,7 +56,7 @@ export default function MaintenancePage() {
   });
 
   return (
-    <Layout title="Maintenance Management">
+    <Layout title="จัดการซ่อมบำรุง">
       <div className="p-4 md:p-6 space-y-4 md:space-y-5">
         {/* KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -130,7 +130,7 @@ export default function MaintenancePage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50 dark:bg-slate-700/50">
-                  {['ทะเบียนรถ','วันที่','ประเภท','รายการ','ร้านซ่อม','ค่าใช้จ่าย','ไมล์','สถานะ','Actions'].map(h => (
+                  {['ทะเบียนรถ','วันที่','ประเภท','รายการ','ร้านซ่อม','ค่าใช้จ่าย','ไมล์','สถานะ','จัดการ'].map(h => (
                     <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>

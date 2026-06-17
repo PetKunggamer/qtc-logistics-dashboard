@@ -3,16 +3,16 @@ import { useApp } from '../../contexts/AppContext';
 import { cn } from '../../utils/helpers';
 
 const navItems = [
-  { path: '/', icon: '📊', label: 'Dashboard', roles: ['admin','sales','logistics','driver','manager'] },
-  { path: '/map', icon: '🗺️', label: 'Live Delivery Map', roles: ['admin','logistics','manager'] },
-  { path: '/orders', icon: '📦', label: 'Order Tracking', roles: ['admin','sales','logistics','manager'] },
-  { path: '/timeline', icon: '⏱️', label: 'Delivery Timeline', roles: ['admin','sales','logistics','manager'] },
-  { path: '/delay', icon: '⚠️', label: 'Delay Analysis', roles: ['admin','logistics','manager'] },
-  { path: '/pod', icon: '📸', label: 'Proof of Delivery', roles: ['admin','sales','logistics','manager'] },
-  { path: '/fleet', icon: '🚚', label: 'Fleet Management', roles: ['admin','logistics','manager'] },
-  { path: '/maintenance', icon: '🔧', label: 'Maintenance', roles: ['admin','logistics','manager'] },
-  { path: '/sales', icon: '💼', label: 'Sales View', roles: ['admin','sales','manager'] },
-  { path: '/kpi', icon: '📈', label: 'KPI Report', roles: ['admin','manager'] },
+  { path: '/', icon: '📊', label: 'แดชบอร์ด', roles: ['admin','sales','logistics','driver','manager'] },
+  { path: '/map', icon: '🗺️', label: 'แผนที่ติดตามสด', roles: ['admin','logistics','manager'] },
+  { path: '/orders', icon: '📦', label: 'ติดตามออเดอร์', roles: ['admin','sales','logistics','manager'] },
+  { path: '/timeline', icon: '⏱️', label: 'ไทม์ไลน์การส่ง', roles: ['admin','sales','logistics','manager'] },
+  { path: '/delay', icon: '⚠️', label: 'วิเคราะห์การล่าช้า', roles: ['admin','logistics','manager'] },
+  { path: '/pod', icon: '📸', label: 'หลักฐานการส่ง', roles: ['admin','sales','logistics','manager'] },
+  { path: '/fleet', icon: '🚚', label: 'จัดการรถและพนักงาน', roles: ['admin','logistics','manager'] },
+  { path: '/maintenance', icon: '🔧', label: 'ซ่อมบำรุง', roles: ['admin','logistics','manager'] },
+  { path: '/sales', icon: '💼', label: 'มุมมองฝ่ายขาย', roles: ['admin','sales','manager'] },
+  { path: '/kpi', icon: '📈', label: 'รายงาน KPI', roles: ['admin','manager'] },
 ];
 
 export default function Sidebar() {
@@ -48,7 +48,7 @@ export default function Sidebar() {
           {sidebarOpen && (
             <div>
               <div className="text-white font-bold text-sm leading-tight">QTC Logistics</div>
-              <div className="text-slate-400 text-xs">Control Tower</div>
+              <div className="text-slate-400 text-xs">ศูนย์ควบคุม</div>
             </div>
           )}
         </div>

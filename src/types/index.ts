@@ -129,6 +129,7 @@ export interface Order {
   totalAmount: number;
   totalWeight: number;
   notes?: string;
+  outsourceCompany?: string;
   route?: [number, number][];
   routeCompleted?: [number, number][];
 }

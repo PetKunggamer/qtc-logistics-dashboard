@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import Layout from '../components/layout/Layout';
 import { Modal } from '../components/ui/Modal';
-import { orders, customers, drivers, vehicles, timelineEvents } from '../data/mockData';
+import { Button } from '../components/ui/Button';
+import { orders as initialOrders, customers, drivers, vehicles, timelineEvents } from '../data/mockData';
 import {
   ORDER_STATUS_LABEL, ORDER_STATUS_COLOR, DELAY_REASON_LABEL,
   TIMELINE_STEP_LABEL, TIMELINE_STEP_ICON, formatDateTime, formatCurrency,
@@ -11,8 +12,11 @@ import { useApp } from '../contexts/AppContext';
 
 const STATUS_OPTIONS: OrderStatus[] = ['pending','preparing','ready_to_load','loaded','in_transit','near_customer','delivered','delayed','cancelled'];
 
+const UNITS = ['กล่อง','ถุง','ลัง','ชิ้น','กระสอบ','รีม','ลิตร','กิโลกรัม','ตัน'];
+
 export default function OrderTrackingPage() {
-  const { userRole } = useApp();
+  const { userRole, userName } = useApp();
+  const [localOrders, setLocalOrders] = useState<Order[]>(initialOrders);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<OrderStatus | 'all'>('all');
   const [salesFilter, setSalesFilter] = useState('all');
@@ -21,10 +25,43 @@ export default function OrderTrackingPage() {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 15;
 
-  const salesOptions = [...new Set(orders.map(o => o.salesName))];
+  const [showAddOrder, setShowAddOrder] = useState(false);
+  const [form, setForm] = useState({
+    customerId: '', scheduledDelivery: '',
+    itemName: '', itemQty: '1', itemUnit: 'กล่อง', itemWeight: '',
+    totalAmount: '', notes: '',
+  });
+
+  const handleAddOrder = () => {
+    if (!form.customerId || !form.scheduledDelivery || !form.itemName) return;
+    const maxNum = localOrders.reduce((max, o) => {
+      const n = parseInt(o.soNumber.split('-').pop() || '0');
+      return n > max ? n : max;
+    }, 0);
+    const newO: Order = {
+      id: `O_${Date.now()}`,
+      soNumber: `SO-2026-${String(maxNum + 1).padStart(3, '0')}`,
+      customerId: form.customerId,
+      salesName: userName,
+      salesPhone: '',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      scheduledDelivery: new Date(form.scheduledDelivery).toISOString(),
+      podStatus: 'pending',
+      items: [{ id: `I_${Date.now()}`, name: form.itemName, quantity: parseInt(form.itemQty) || 1, unit: form.itemUnit, weight: parseFloat(form.itemWeight) || 0 }],
+      totalAmount: parseFloat(form.totalAmount) || 0,
+      totalWeight: parseFloat(form.itemWeight) || 0,
+      notes: form.notes || undefined,
+    };
+    setLocalOrders(prev => [newO, ...prev]);
+    setShowAddOrder(false);
+    setForm({ customerId: '', scheduledDelivery: '', itemName: '', itemQty: '1', itemUnit: 'กล่อง', itemWeight: '', totalAmount: '', notes: '' });
+  };
+
+  const salesOptions = [...new Set(localOrders.map(o => o.salesName))];
 
   const filteredOrders = useMemo(() => {
-    return orders.filter(o => {
+    return localOrders.filter(o => {
       if (userRole === 'sales') {
         if (o.salesName !== 'คุณเมย์') return false;
       }
@@ -38,7 +75,7 @@ export default function OrderTrackingPage() {
       if (salesFilter !== 'all' && o.salesName !== salesFilter) return false;
       return true;
     });
-  }, [search, statusFilter, salesFilter, userRole]);
+  }, [localOrders, search, statusFilter, salesFilter, userRole]);
 
   const paged = filteredOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const totalPages = Math.ceil(filteredOrders.length / PAGE_SIZE);
@@ -52,16 +89,16 @@ export default function OrderTrackingPage() {
   const getVehicle = (id?: string) => id ? vehicles.find(v => v.id === id) : undefined;
 
   return (
-    <Layout title="Order Tracking">
+    <Layout title="ติดตามออเดอร์">
       <div className="p-4 md:p-6 space-y-4 md:space-y-5">
         {/* Stats row */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
           {[
-            { label: 'ทั้งหมด', count: orders.length, color: 'text-slate-800 dark:text-white' },
-            { label: 'กำลังขนส่ง', count: orders.filter(o => ['in_transit','near_customer','loaded'].includes(o.status)).length, color: 'text-amber-600 dark:text-amber-400' },
-            { label: 'ส่งสำเร็จ', count: orders.filter(o => o.status === 'delivered').length, color: 'text-emerald-600 dark:text-emerald-400' },
-            { label: 'ล่าช้า', count: orders.filter(o => o.status === 'delayed').length, color: 'text-red-600 dark:text-red-400' },
-            { label: 'รอดำเนินการ', count: orders.filter(o => ['pending','preparing','ready_to_load'].includes(o.status)).length, color: 'text-blue-600 dark:text-blue-400' },
+            { label: 'ทั้งหมด', count: localOrders.length, color: 'text-slate-800 dark:text-white' },
+            { label: 'กำลังขนส่ง', count: localOrders.filter(o => ['in_transit','near_customer','loaded'].includes(o.status)).length, color: 'text-amber-600 dark:text-amber-400' },
+            { label: 'ส่งสำเร็จ', count: localOrders.filter(o => o.status === 'delivered').length, color: 'text-emerald-600 dark:text-emerald-400' },
+            { label: 'ล่าช้า', count: localOrders.filter(o => o.status === 'delayed').length, color: 'text-red-600 dark:text-red-400' },
+            { label: 'รอดำเนินการ', count: localOrders.filter(o => ['pending','preparing','ready_to_load'].includes(o.status)).length, color: 'text-blue-600 dark:text-blue-400' },
           ].map((s, i) => (
             <div key={i} className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 p-4 text-center shadow-sm">
               <div className={`text-2xl font-bold ${s.color}`}>{s.count}</div>
@@ -100,6 +137,11 @@ export default function OrderTrackingPage() {
           <div className="text-xs text-slate-500 dark:text-slate-400 self-center whitespace-nowrap">
             {filteredOrders.length} รายการ
           </div>
+          {['admin','sales','manager'].includes(userRole) && (
+            <Button variant="primary" size="sm" onClick={() => setShowAddOrder(true)}>
+              + เพิ่มออเดอร์
+            </Button>
+          )}
         </div>
 
         {/* Table */}
@@ -108,7 +150,7 @@ export default function OrderTrackingPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
-                  {['SO Number','ลูกค้า','Sales','รถ / คนขับ','สถานะ','ETA','ส่งจริง','สาเหตุล่าช้า','POD','Actions'].map(h => (
+                  {['เลขที่ SO','ลูกค้า','เซลส์','รถ / คนขับ','สถานะ','เวลาถึงโดยประมาณ','ส่งจริง','สาเหตุล่าช้า','POD','จัดการ'].map(h => (
                     <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
@@ -211,6 +253,127 @@ export default function OrderTrackingPage() {
         </div>
       </div>
 
+      {/* Add Order Modal */}
+      <Modal open={showAddOrder} onClose={() => setShowAddOrder(false)} title="➕ เพิ่มออเดอร์ใหม่" size="lg">
+        <div className="p-6 space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* ลูกค้า */}
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">ลูกค้า <span className="text-red-500">*</span></label>
+              <select
+                value={form.customerId}
+                onChange={e => setForm(f => ({ ...f, customerId: e.target.value }))}
+                className="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">— เลือกลูกค้า —</option>
+                {customers.map(c => <option key={c.id} value={c.id}>{c.name} ({c.district}, {c.province})</option>)}
+              </select>
+            </div>
+
+            {/* กำหนดส่ง */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">วันที่กำหนดส่ง <span className="text-red-500">*</span></label>
+              <input
+                type="datetime-local"
+                value={form.scheduledDelivery}
+                onChange={e => setForm(f => ({ ...f, scheduledDelivery: e.target.value }))}
+                className="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* มูลค่า */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">มูลค่ารวม (฿)</label>
+              <input
+                type="number"
+                placeholder="เช่น 50000"
+                value={form.totalAmount}
+                onChange={e => setForm(f => ({ ...f, totalAmount: e.target.value }))}
+                className="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* รายการสินค้า */}
+          <div className="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-4 space-y-3">
+            <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">📦 รายการสินค้า <span className="text-red-500">*</span></div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="md:col-span-2">
+                <label className="block text-xs text-slate-500 dark:text-slate-400 mb-1">ชื่อสินค้า</label>
+                <input
+                  type="text"
+                  placeholder="เช่น เครื่องใช้สำนักงาน"
+                  value={form.itemName}
+                  onChange={e => setForm(f => ({ ...f, itemName: e.target.value }))}
+                  className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-500 dark:text-slate-400 mb-1">จำนวน</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={form.itemQty}
+                  onChange={e => setForm(f => ({ ...f, itemQty: e.target.value }))}
+                  className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-500 dark:text-slate-400 mb-1">หน่วย</label>
+                <select
+                  value={form.itemUnit}
+                  onChange={e => setForm(f => ({ ...f, itemUnit: e.target.value }))}
+                  className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {UNITS.map(u => <option key={u} value={u}>{u}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-slate-500 dark:text-slate-400 mb-1">น้ำหนักรวม (kg)</label>
+                <input
+                  type="number"
+                  placeholder="kg"
+                  value={form.itemWeight}
+                  onChange={e => setForm(f => ({ ...f, itemWeight: e.target.value }))}
+                  className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* หมายเหตุ */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">หมายเหตุ</label>
+            <textarea
+              rows={2}
+              placeholder="หมายเหตุเพิ่มเติม..."
+              value={form.notes}
+              onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+              className="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            />
+          </div>
+
+          {/* ผู้บันทึก */}
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2">
+            <span>👤</span>
+            <span>บันทึกโดย: <span className="font-medium text-slate-700 dark:text-slate-300">{userName}</span></span>
+          </div>
+
+          <div className="flex gap-3 pt-1">
+            <Button
+              variant="primary"
+              className="flex-1"
+              onClick={handleAddOrder}
+            >
+              ✅ บันทึกออเดอร์
+            </Button>
+            <Button variant="secondary" className="flex-1" onClick={() => setShowAddOrder(false)}>
+              ยกเลิก
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
       {/* Order Detail Modal */}
       <Modal
         open={!!selectedOrder}
@@ -229,7 +392,7 @@ export default function OrderTrackingPage() {
                 {(['detail', 'timeline'] as const).map(tab => (
                   <button key={tab} onClick={() => setActiveTab(tab)}
                     className={`px-4 py-1.5 text-sm rounded-md font-medium transition-colors ${activeTab === tab ? 'bg-white dark:bg-slate-600 text-slate-800 dark:text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>
-                    {tab === 'detail' ? '📋 รายละเอียด' : '⏱️ Timeline'}
+                    {tab === 'detail' ? '📋 รายละเอียด' : '⏱️ ไทม์ไลน์'}
                   </button>
                 ))}
               </div>
@@ -305,7 +468,7 @@ export default function OrderTrackingPage() {
                     {/* POD Status */}
                     <div className={`rounded-xl p-4 ${selectedOrder.podStatus === 'verified' ? 'bg-emerald-50 dark:bg-emerald-900/20' : selectedOrder.podStatus === 'uploaded' ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-slate-50 dark:bg-slate-700/50'}`}>
                       <div className="text-sm font-semibold text-slate-800 dark:text-white">
-                        POD Status: {selectedOrder.podStatus === 'verified' ? '✅ ยืนยันแล้ว' : selectedOrder.podStatus === 'uploaded' ? '📤 อัปโหลดแล้ว' : '⏳ รอ POD'}
+                        สถานะ POD: {selectedOrder.podStatus === 'verified' ? '✅ ยืนยันแล้ว' : selectedOrder.podStatus === 'uploaded' ? '📤 อัปโหลดแล้ว' : '⏳ รอ POD'}
                       </div>
                     </div>
                   </div>
